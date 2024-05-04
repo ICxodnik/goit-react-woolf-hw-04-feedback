@@ -1,49 +1,47 @@
 import css from './index.module.css';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Statistic from 'components/Statistic';
 import FeedbackOptions from 'components/FeedbackOptions';
 import Section from 'components/Section';
-import { Options } from 'shared/optionsEnum';
+import { Options, getDefaultValue } from 'shared/optionsEnum';
 
-export default class Feedback extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+export const Feedback = props => {
+  const [feedbackResults, setFeedbackResults] = useState(getDefaultValue());
 
-  getStatisticData() {
+  function getStatisticData() {
     return {
-      ...this.state,
-      totalCount: this.getTotalCount(this.state),
-      totalPercent: this.getTotalPercent(this.state),
+      ...feedbackResults,
+      totalCount: getTotalCount(),
+      totalPercent: getTotalPercent(),
     };
   }
 
-  getTotalCount = data => {
-    return data.good + data.neutral + data.bad;
+  const getTotalCount = () => {
+    return Object.values(feedbackResults).reduce(
+      (total, stat) => (total += stat),
+      0
+    );
   };
 
-  getTotalPercent = data => {
-    return Math.round((data.good / this.getTotalCount(data)) * 100);
+  const getTotalPercent = () => {
+    return Math.round((feedbackResults.good / getTotalCount()) * 100);
   };
 
-  addVote = vote => {
-    this.setState(prevState => {
-      return { [vote]: prevState[vote] + 1 };
+  const addVote = vote => {
+    console.log(vote);
+    setFeedbackResults(prev => {
+      return { ...prev, [vote]: prev[vote] + 1 };
     });
   };
 
-  render() {
-    return (
-      <div className={css.feedback}>
-        <Section title="Please leave feedback">
-          <FeedbackOptions options={Options} addVote={this.addVote} />
-        </Section>
-        <Section title="Statistics">
-          <Statistic data={this.getStatisticData()} />
-        </Section>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={css.feedback}>
+      <Section title="Please leave feedback">
+        <FeedbackOptions options={Options} addVote={addVote} />
+      </Section>
+      <Section title="Statistics">
+        <Statistic data={getStatisticData()} />
+      </Section>
+    </div>
+  );
+};
