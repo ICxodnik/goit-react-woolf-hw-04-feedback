@@ -1,21 +1,14 @@
 import css from './index.module.css';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
-export class Notification extends Component {
-  static propTypes = {
-    level: PropTypes.string,
-    message: PropTypes.string.isRequired,
-  };
-  static defaultProps = {
-    level: 'warning',
-  };
+export const Notification = props => {
+  return {
+    info: <div className={css.info}>{props.message}</div>,
+    warning: <div className={css.warning}>{props.message}</div>,
+    error: <div className={css.error}>{props.message}</div>,
+  }[props.level];
+};
 
-  render() {
-    return {
-      info: <div className={css.info}>{this.props.message}</div>,
-      warning: <div className={css.warning}>{this.props.message}</div>,
-      error: <div className={css.error}>{this.props.message}</div>,
-    }[this.props.level];
-  }
-}
+Notification.defaultProps = {
+  level: 'warning',
+};

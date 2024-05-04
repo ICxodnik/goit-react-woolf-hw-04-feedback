@@ -1,20 +1,21 @@
 import css from './index.module.css';
-import React, { Component } from 'react';
 
-export default class FeedbackOptions extends Component {
-  getOptions() {
+export const FeedbackOptions = props => {
+  function getOptions() {
     let content = [];
-    for (const vote in this.props.options) {
+    for (const vote in props.options) {
       content.push(
-        <button className={css.button} key={vote} onClick={() => this.props.addVote(vote)}>
-          {this.props.options[vote]}
+        <button
+          className={css.button}
+          key={vote}
+          onClick={() => props.addVote(vote)}
+        >
+          {props.options[vote]}
         </button>
       );
     }
     return content;
   }
 
-  render() {
-    return <div className={css.feedbackOptions}>{this.getOptions()}</div>;
-  }
-}
+  return <div className={css.feedbackOptions}>{getOptions()}</div>;
+};
