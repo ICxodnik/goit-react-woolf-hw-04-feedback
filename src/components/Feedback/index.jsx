@@ -1,7 +1,7 @@
 import css from './index.module.css';
 import React, { useState } from 'react';
 import { Statistic } from 'components/Statistic';
-import { FeedbackOptions } from 'components/FeedbackOptions';
+import FeedbackOptions from 'components/FeedbackOptions';
 import { Section } from 'components/Section';
 import { Options, getDefaultValue } from 'shared/optionsEnum';
 
